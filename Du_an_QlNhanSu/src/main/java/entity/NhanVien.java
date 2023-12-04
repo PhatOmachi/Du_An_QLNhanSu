@@ -35,6 +35,14 @@ public class NhanVien {
         this.bacLuong = bacLuong;
     }
 
+    public String getMaPB() {
+        return maPB;
+    }
+
+    public void setMaPB(String maPB) {
+        this.maPB = maPB;
+    }
+
     public String getMaNV() {
         return maNV;
     }

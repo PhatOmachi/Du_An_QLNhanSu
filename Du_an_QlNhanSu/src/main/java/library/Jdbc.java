@@ -13,7 +13,7 @@ import java.sql.*;
 public class Jdbc {
 
     private static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    private static String url = "jdbc:sqlserver://localhost;database=Nerdyers;encrypt=false;trustServerCertificate=true;";
+    private static String url = "jdbc:sqlserver://localhost;database=QuanLyNS;encrypt=false;trustServerCertificate=true;";
     private static String username = "sa", password = "root";
 
     //Nạp driver
