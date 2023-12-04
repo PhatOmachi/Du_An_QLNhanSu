@@ -35,11 +35,11 @@ INSERT INTO ChucVu (maCV, tenCV) VALUES
 
 -- Insert into TrinhDoHocVan table
 INSERT INTO TrinhDoHocVan (maTDHV, tenTrinhDo, chuyenNganh) VALUES
-  ('TDHV001', 'Đại học', 'Kế Toán'),
-  ('TDHV002', 'Thạc sĩ', 'Quản trị nhân sự'),
-  ('TDHV003', 'Tiến sĩ', 'Công nghệ thông tin'),
-  ('TDHV004', 'Cao đẳng', 'Marketing'),
-  ('TDHV005', 'Khác', NULL);
+  ('TDHV001', N'Đại học', N'Kế Toán'),
+  ('TDHV002', N'Thạc sĩ', N'Quản trị nhân sự'),
+  ('TDHV003', N'Tiến sĩ', N'Công nghệ thông tin'),
+  ('TDHV004', N'Cao đẳng', N'Marketing'),
+  ('TDHV005', N'Khác', NULL);
 
 -- Insert into NhanVien table
 INSERT INTO NhanVien (maNV, hoTen, ngaySinh, queQuan, gioiTinh, danToc, soDienThoai, maPB, maCV, maTDHV, bacLuong) VALUES
