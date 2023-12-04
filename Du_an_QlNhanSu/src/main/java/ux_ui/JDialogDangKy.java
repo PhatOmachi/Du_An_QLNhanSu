@@ -4,6 +4,11 @@
  */
 package ux_ui;
 
+import dao.TaiKhoanDAO;
+import entity.*;
+import java.util.ArrayList;
+import library.*;
+
 
 /**
  *
@@ -14,21 +19,16 @@ public class JDialogDangKy extends javax.swing.JDialog {
     /**
      * Creates new form JDialogDangKi
      */
+    TaiKhoan tk = new TaiKhoan();
+    TaiKhoanDAO tkdao = new TaiKhoanDAO();
+    ArrayList<TaiKhoan> tklist  = tkdao.select();
+    
     public JDialogDangKy(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+        init();
     }
 
-
-
-  
-
-  
-
-
-
-  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -82,6 +82,11 @@ public class JDialogDangKy extends javax.swing.JDialog {
 
         btnDangKy.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnDangKy.setText("Đăng Ký");
+        btnDangKy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDangKyActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -158,6 +163,11 @@ public class JDialogDangKy extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
+    private void btnDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKyActionPerformed
+        // TODO add your handling code here:
+//        dangKy();
+    }//GEN-LAST:event_btnDangKyActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -216,4 +226,28 @@ public class JDialogDangKy extends javax.swing.JDialog {
     private javax.swing.JTextField txtTaiKhoan;
     private javax.swing.JPasswordField txtXacNhanMatKhau;
     // End of variables declaration//GEN-END:variables
+    
+    private void init() {
+        setLocationRelativeTo(null);
+    }
+    
+//    TaiKhoan getform(){
+//        TaiKhoan tkform = new TaiKhoan();
+//        tkform.setTenDangNhap(txtDangNhap.getText());
+//        tkform.setMatKhau(new String(txtMatKhau.getPassword()));
+//        return tkform;
+//    }
+//    
+//    void dangKy(){
+//        String tkdk = txtDangNhap.getText();
+//        String mk1dk = new String (txtMatKhau.getPassword());
+//        String mk2dk = new String (txtXacNhanMatKhau.getPassword());
+//        
+//        if(!(mk1dk == mk2dk)){
+//            MsgBox.alert(this, "2 mật khẩu đăng kí phải giống nhau");
+//        }
+//        
+//    }
+    
+
 }

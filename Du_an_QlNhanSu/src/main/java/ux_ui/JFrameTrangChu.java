@@ -15,6 +15,7 @@ public class JFrameTrangChu extends javax.swing.JFrame {
      */
     public JFrameTrangChu() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
