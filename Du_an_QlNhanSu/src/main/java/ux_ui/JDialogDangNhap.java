@@ -19,13 +19,10 @@ public class JDialogDangNhap extends javax.swing.JDialog {
     /**
      * Creates new form JDialogDN
      */
-    
     TaiKhoan tk = new TaiKhoan();
     TaiKhoanDAO tkdao = new TaiKhoanDAO();
     ArrayList<TaiKhoan> tklist = tkdao.select();
-    
-    
-    
+
     public JDialogDangNhap(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -143,7 +140,7 @@ public class JDialogDangNhap extends javax.swing.JDialog {
     }//GEN-LAST:event_btnKetThucActionPerformed
 
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
-        checkTK();
+        checkThongTin();
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
@@ -205,24 +202,36 @@ public class JDialogDangNhap extends javax.swing.JDialog {
     private javax.swing.JTextField txtTenDangNhap;
     // End of variables declaration//GEN-END:variables
 
-    void firstRun(){
+    void firstRun() {
         setLocationRelativeTo(null);
     }
-    
-    void checkTK(){
+
+    void checkTK() {
         String name = txtTenDangNhap.getText();
         String mk = new String(txtMatKhau.getPassword());
-        tk = tkdao.selectByTenDangNhap(name);
-            if(name.equals(tk.getTenDangNhap()) && mk.equalsIgnoreCase(mk)){
-                MsgBox.alert(this, "Chào mừng "+ tk.getTenDangNhap() + " đã quay trở lại");
-                Auth.taikhoan = tk;
-                this.dispose();
-                new JFrameTrangChu().setVisible(true);
-            }else{
-                MsgBox.alert(this, "Có vẻ tài khoản hoặc mật khẩu đã sai");
-            }
+        TaiKhoan tk = tkdao.selectByTenDangNhap(name);
+        if (name.equalsIgnoreCase(tk.getTenDangNhap()) && mk.equalsIgnoreCase(tk.getMatKhau())) {
+            MsgBox.alert(this, "Chào mừng " + tk.getTenDangNhap() + " đã quay trở lại");
+            Auth.taikhoan = tk;
+            this.dispose();
+            new JFrameTrangChu().setVisible(true);
+        } else {
+            MsgBox.alert(this, "Có vẻ mật khẩu đã sai");
+        }
     }
-    
-    
-    
+
+    void checkThongTin() {
+        String mk = new String(txtMatKhau.getPassword());
+        try {
+            TaiKhoan taiKhoan = new TaiKhoanDAO().selectByTenDangNhap(txtTenDangNhap.getText());
+            System.out.println(taiKhoan.getTenDangNhap());
+            if(mk.isEmpty()){
+                MsgBox.alert(this, "Mật khẩu không được để trống");
+                return;
+            }
+            checkTK();
+        } catch (Exception e) {
+            MsgBox.alert(this, "Thông tin đăng nhập không có");
+        }
+    }
 }
