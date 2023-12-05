@@ -4,11 +4,19 @@
  */
 package ux_ui;
 
+import dao.PhongBanDAO;
+import entity.PhongBan;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import library.MsgBox;
+
 /**
  *
  * @author Admin
  */
 public class JDialogPhongBan extends javax.swing.JDialog {
+
+    private int row;
 
     /**
      * Creates new form JDialogPhongBan
@@ -16,6 +24,7 @@ public class JDialogPhongBan extends javax.swing.JDialog {
     public JDialogPhongBan(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        init();
     }
 
     /**
@@ -49,6 +58,8 @@ public class JDialogPhongBan extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPhongBan = new javax.swing.JTable();
+        txtTimKiem = new javax.swing.JTextField();
+        btnTim = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -67,26 +78,66 @@ public class JDialogPhongBan extends javax.swing.JDialog {
         btnThem.setText("Thêm");
         btnThem.setMaximumSize(new java.awt.Dimension(80, 30));
         btnThem.setMinimumSize(new java.awt.Dimension(80, 30));
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         btnSua.setText("Sửa");
         btnSua.setMaximumSize(new java.awt.Dimension(80, 30));
         btnSua.setMinimumSize(new java.awt.Dimension(80, 30));
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
         btnXoa.setText("Xóa");
         btnXoa.setMaximumSize(new java.awt.Dimension(80, 30));
         btnXoa.setMinimumSize(new java.awt.Dimension(80, 30));
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         btnMoi.setText("Mới");
         btnMoi.setMaximumSize(new java.awt.Dimension(80, 30));
         btnMoi.setMinimumSize(new java.awt.Dimension(80, 30));
+        btnMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoiActionPerformed(evt);
+            }
+        });
 
         btnFirst.setText("|<");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
 
         btnPrev.setText("<<");
+        btnPrev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrevActionPerformed(evt);
+            }
+        });
 
         btnNext.setText(">>");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
 
         btnLast.setText(">|");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -202,24 +253,55 @@ public class JDialogPhongBan extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        tblPhongBan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblPhongBanMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblPhongBan);
+
+        txtTimKiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTimKiemKeyReleased(evt);
+            }
+        });
+
+        btnTim.setText("Tìm");
+        btnTim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnTim)))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTim))
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(30, Short.MAX_VALUE))
         );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnTim, txtTimKiem});
 
         jTabbedPane1.addTab("Xem", jPanel2);
 
@@ -236,6 +318,54 @@ public class JDialogPhongBan extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        this.insert();
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void tblPhongBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhongBanMouseClicked
+        if (evt.getClickCount() == 2) {
+            this.row = tblPhongBan.getSelectedRow();
+            this.edit();
+        }
+
+    }//GEN-LAST:event_tblPhongBanMouseClicked
+
+    private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
+        this.clearForm();
+    }//GEN-LAST:event_btnMoiActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        this.update();
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        this.delete();
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        this.first();
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
+        this.prev();
+    }//GEN-LAST:event_btnPrevActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        this.next();
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        this.last();
+    }//GEN-LAST:event_btnLastActionPerformed
+
+    private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTimKiemKeyReleased
+
+    private void btnTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimActionPerformed
+        fillTableSearch();
+    }//GEN-LAST:event_btnTimActionPerformed
 
     /**
      * @param args the command line arguments
@@ -287,6 +417,7 @@ public class JDialogPhongBan extends javax.swing.JDialog {
     private javax.swing.JButton btnPrev;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnTim;
     private javax.swing.JButton btnXoa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -302,5 +433,197 @@ public class JDialogPhongBan extends javax.swing.JDialog {
     private javax.swing.JTextField txtMaPhongBan;
     private javax.swing.JTextField txtSDT;
     private javax.swing.JTextField txtTenPhongBan;
+    private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
+    private void init() {
+        fillTable();
+        this.row = -1;
+        this.updateStatus();
+        setLocationRelativeTo(null);
+    }
+
+    private void fillTable() {
+        // load dữ liệu lên bảng
+        DefaultTableModel model = (DefaultTableModel) tblPhongBan.getModel();
+        model.setRowCount(0);
+        try {
+            List<PhongBan> list = new PhongBanDAO().select();
+            for (PhongBan pb : list) {
+                Object[] row = {pb.getMaPB(), pb.getTenPB(), pb.getDiaChi(), pb.getSoDienThoaiPB()
+                };
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            // show lỗi
+            MsgBox.alert(this, "Lỗi truy vấn");
+        }
+    }
+
+    private void fillTableSearch() {
+        DefaultTableModel model = (DefaultTableModel) tblPhongBan.getModel();
+        model.setRowCount(0);
+        try {
+            List<PhongBan> list = new PhongBanDAO().selectSearch(txtTimKiem.getText());
+            for (PhongBan pb : list) {
+                Object[] row = {pb.getMaPB(), pb.getTenPB(), pb.getDiaChi(), pb.getSoDienThoaiPB()
+                };
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            // show lỗi
+            MsgBox.alert(this, "Lỗi truy vấn");
+        }
+    }
+
+    private void setForm(PhongBan pb) {
+        txtMaPhongBan.setText(pb.getMaPB());
+        txtTenPhongBan.setText(pb.getTenPB());
+        txtDiaChi.setText(pb.getDiaChi());
+        txtSDT.setText(pb.getSoDienThoaiPB());
+    }
+
+    private PhongBan getForm() {
+        PhongBan pb = new PhongBan();
+        pb.setMaPB(txtMaPhongBan.getText());
+        pb.setTenPB(txtTenPhongBan.getText());
+        pb.setDiaChi(txtDiaChi.getText());
+        pb.setSoDienThoaiPB(txtSDT.getText());
+        return pb;
+    }
+
+    private void clearForm() {
+        PhongBan pb = new PhongBan();
+        this.setForm(pb);
+        this.row = -1;
+        this.updateStatus();
+    }
+
+    private void edit() {
+        String maPhongBan = (String) tblPhongBan.getValueAt(this.row, 0);
+        PhongBan pb = new PhongBanDAO().selectByMaPB(maPhongBan);
+        this.setForm(pb);
+        jTabbedPane1.setSelectedIndex(0);
+        this.updateStatus();
+    }
+
+    private void updateStatus() {
+        boolean edit = (this.row >= 0);
+        boolean first = (this.row == 0);
+        boolean last = (this.row == tblPhongBan.getRowCount() - 1);
+        //trạng thái form
+        txtMaPhongBan.setEditable(!edit);
+        btnThem.setEnabled(!edit);
+        btnSua.setEnabled(edit);
+        btnXoa.setEnabled(edit);
+        //trạng thái điều hướng
+        btnFirst.setEnabled(edit && !first);
+        btnPrev.setEnabled(edit && !first);
+        btnNext.setEnabled(edit && !last);
+        btnLast.setEnabled(edit && !last);
+    }
+
+    private boolean check() {
+        String thongBao = "";
+        String maPhongBan = txtMaPhongBan.getText().trim();
+        String tenPhongBan = txtTenPhongBan.getText().trim();
+        String diaChi = txtDiaChi.getText().trim();
+        String sdt = txtSDT.getText().trim();
+
+        if (maPhongBan.isEmpty()) {
+            thongBao += "Bạn chưa nhập mã phòng ban\n";
+        }
+        if (tenPhongBan.isEmpty()) {
+            thongBao += "Bạn chưa nhập tên phòng ban\n";
+        }
+        if (diaChi.isEmpty()) {
+            thongBao += "Bạn chưa nhập địa chỉ phòng ban\n";
+        }
+        if (sdt.isEmpty()) {
+            thongBao += "Bạn chưa nhập sđt phòng ban\n";
+        }
+        if (thongBao.length() > 0) {
+            MsgBox.alert(this, thongBao);
+            return false;
+        }
+        return true;
+    }
+
+    private void insert() {
+        if (check()) {
+            String maPhongBan = txtMaPhongBan.getText();
+            try {
+                PhongBan pb = new PhongBanDAO().selectByMaPB(maPhongBan);
+                if (pb != null) {
+                    MsgBox.alert(this, "Bạn đã nhập trùng mã phòng ban");
+                    return;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            PhongBan pb = getForm();
+            try {
+                new PhongBanDAO().insert(pb);
+                this.fillTable();
+                MsgBox.alert(this, "Thêm mới thành công");
+            } catch (Exception e) {
+                MsgBox.alert(this, "Thêm mới thất bại");
+            }
+
+        }
+    }
+
+    private void update() {
+        if (check()) {
+            try {
+                new PhongBanDAO().update(getForm());
+                this.fillTable();
+                MsgBox.alert(this, "Cập nhật thành công");
+            } catch (Exception e) {
+                e.printStackTrace();
+                MsgBox.alert(this, "Cập nhật thất bại");
+            }
+        }
+    }
+
+    private void delete() {
+        String maPhongBan = txtMaPhongBan.getText();
+        PhongBan pb = new PhongBan();
+        pb.setMaPB(maPhongBan);
+        if (MsgBox.confirm(this, "Bạn có muốn xóa phòng ban này?")) {
+            try {
+                new PhongBanDAO().delete(pb);
+                this.fillTable();
+//                this.clearForm();
+                MsgBox.alert(this, "Xóa thành công");
+            } catch (Exception e) {
+                MsgBox.alert(this, "Xóa thất bại");
+            }
+        }
+    }
+
+    private void first() {
+        this.row = 0;
+        this.edit();
+    }
+
+    private void last() {
+        this.row = tblPhongBan.getRowCount() - 1;
+        this.edit();
+    }
+
+    private void prev() {
+        if (this.row > 0) {
+            this.row--;
+            this.edit();
+        }
+    }
+
+    private void next() {
+        if (this.row < tblPhongBan.getRowCount() - 1) {
+            this.row++;
+            this.edit();
+        }
+    }
+
 }
