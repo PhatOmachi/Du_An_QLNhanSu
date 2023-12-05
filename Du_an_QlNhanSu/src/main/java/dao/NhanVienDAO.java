@@ -37,6 +37,11 @@ public class NhanVienDAO {
         String selectQuery = "SELECT * FROM NhanVien";
         return select(selectQuery);
     }
+    
+    public ArrayList<NhanVien> search(String val) {
+        String query = "{call searchNV (?)}";
+        return select(query, val);
+    }
 
     public NhanVien selectByMaNV(String maNV) {
         String selectQuery = "SELECT * FROM NhanVien WHERE maNV = ?";
