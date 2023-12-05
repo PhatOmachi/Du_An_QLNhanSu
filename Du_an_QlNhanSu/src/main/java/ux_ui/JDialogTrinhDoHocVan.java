@@ -476,6 +476,7 @@ public class JDialogTrinhDoHocVan extends javax.swing.JDialog {
                 TrinhDoHocVan tdhv = dao.selectByMaTDHV(mtdhv);
                 if (tdhv.getMaTDHV() != null) {
                     MsgBox.alert(this, "Mã trình độ học vấn đã tồn tại");
+                    return;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
