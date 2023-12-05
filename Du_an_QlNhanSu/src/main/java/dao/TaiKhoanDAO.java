@@ -27,6 +27,11 @@ public class TaiKhoanDAO {
         String updateQuery = "UPDATE TaiKhoan SET matKhau = ? WHERE tenDangNhap = ?";
         Jdbc.executeUpdate(updateQuery, taiKhoan.getMatKhau(), taiKhoan.getTenDangNhap());
     }
+    
+        public void updateCuaDoiMatKhau(String matKhau , String tenDangNhap) {
+        String updateQuery = "UPDATE TaiKhoan SET matKhau = ? WHERE tenDangNhap = ?";
+        Jdbc.executeUpdate(updateQuery, matKhau, tenDangNhap);
+    }
 
     public ArrayList<TaiKhoan> select() {
         String selectQuery = "SELECT * FROM TaiKhoan";
