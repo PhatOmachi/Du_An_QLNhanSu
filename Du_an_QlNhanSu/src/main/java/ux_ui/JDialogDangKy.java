@@ -4,6 +4,10 @@
  */
 package ux_ui;
 
+import dao.TaiKhoanDAO;
+import entity.*;
+import java.util.ArrayList;
+import library.*;
 
 /**
  *
@@ -14,21 +18,21 @@ public class JDialogDangKy extends javax.swing.JDialog {
     /**
      * Creates new form JDialogDangKi
      */
+    TaiKhoan tk = new TaiKhoan();
+    TaiKhoanDAO tkdao = new TaiKhoanDAO();
+    ArrayList<TaiKhoan> tklist = tkdao.select();
+
     public JDialogDangKy(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+        init();
     }
 
-
-
-  
-
-  
-
-
-
-  
+    public JDialogDangKy(java.awt.Dialog parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+        init();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -82,6 +86,11 @@ public class JDialogDangKy extends javax.swing.JDialog {
 
         btnDangKy.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnDangKy.setText("Đăng Ký");
+        btnDangKy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDangKyActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -156,7 +165,13 @@ public class JDialogDangKy extends javax.swing.JDialog {
 
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
         // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnDangNhapActionPerformed
+
+    private void btnDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKyActionPerformed
+        // TODO add your handling code here:
+        dangKy();
+    }//GEN-LAST:event_btnDangKyActionPerformed
 
     /**
      * @param args the command line arguments
@@ -216,4 +231,52 @@ public class JDialogDangKy extends javax.swing.JDialog {
     private javax.swing.JTextField txtTaiKhoan;
     private javax.swing.JPasswordField txtXacNhanMatKhau;
     // End of variables declaration//GEN-END:variables
+
+    private void init() {
+        setLocationRelativeTo(null);
+    }
+
+    TaiKhoan getform() {
+        TaiKhoan tkform = new TaiKhoan();
+        tkform.setTenDangNhap(txtTaiKhoan.getText());
+        tkform.setMatKhau(new String(txtMatKhau.getPassword()));
+        return tkform;
+    }
+
+    void dangKy() {
+        TaiKhoan tkdk = getform();
+
+        if (checkTk()) {
+            MsgBox.alert(this, "Tài khoản đã tồn tại");
+            return;
+        }
+        if (checkMK()) {
+            MsgBox.alert(this, "2 mật khẩu đăng kí phải giống nhau");
+            return;
+        }
+        tkdao.insert(tkdk);
+        MsgBox.alert(this, "Đã đăng kí thành công");
+        this.dispose();
+    }
+
+    boolean checkTk() {
+        TaiKhoan tk = tkdao.selectByTenDangNhap(txtTaiKhoan.getText());
+
+        if (tk != null) {
+            return true;
+        }
+        return false;
+    }
+
+    boolean checkMK() {
+        String mk1 = new String(txtMatKhau.getPassword());
+        String mk2 = new String(txtXacNhanMatKhau.getPassword());
+
+        if (mk1.equals(mk2)) {
+            return false;
+        }
+
+        return true;
+    }
+
 }
