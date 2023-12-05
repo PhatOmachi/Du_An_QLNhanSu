@@ -484,6 +484,7 @@ public class JDialogLuong extends javax.swing.JDialog {
                 Luong luong = dao.selectByBacLuong(bacluong);
                 if (luong.getBacLuong() != null) {
                     MsgBox.alert(this, "Mã bậc lương này đã tồn tại");
+                    return;
                 }
             } catch (Exception e) {
                 e.printStackTrace();

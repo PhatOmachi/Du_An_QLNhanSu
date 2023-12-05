@@ -62,3 +62,13 @@ create table ThoiGianCongTac (
 	constraint fk_tgct_nv foreign key (maNV) references nhanVien(maNV),
 	constraint fk_tgct_cv foreign key (maCV) references ChucVu(maCV)
 )
+
+create table CongTac(
+	maCT nvarchar(10) primary key,
+	soQuyetDinh int not null,
+	ngayCoHieuLuc date not null,
+	nhiemVuCu nvarchar(250) not null,
+	nhiemVuMoi nvarchar(250) not null,
+	maNV nvarchar(10) not null,
+	constraint fk_ct_nv foreign key (maNV) references nhanvien(maNV)
+)
