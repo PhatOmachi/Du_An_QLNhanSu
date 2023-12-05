@@ -61,7 +61,7 @@ create table NhanVien(
 create table ThoiGianCongTac (
 	maNV nvarchar(10) not null,
 	maCV nvarchar(10) not null,
-	ngayNhapChuc date not null,
+	ngayNhapChuc date default getdate(),
 	constraint fk_tgct_nv foreign key (maNV) references nhanVien(maNV),
 	constraint fk_tgct_cv foreign key (maCV) references ChucVu(maCV)
 )
