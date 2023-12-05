@@ -4,11 +4,20 @@
  */
 package ux_ui;
 
+import dao.TrinhDoHocVanDAO;
+import entity.TrinhDoHocVan;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import library.MsgBox;
+
 /**
  *
  * @author TAN LOC
  */
 public class JDialogTrinhDoHocVan extends javax.swing.JDialog {
+
+    TrinhDoHocVanDAO dao = new TrinhDoHocVanDAO();
+    int row = -1;
 
     /**
      * Creates new form JDialogTrinhDoHocVan
@@ -16,6 +25,8 @@ public class JDialogTrinhDoHocVan extends javax.swing.JDialog {
     public JDialogTrinhDoHocVan(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
+        init();
     }
 
     /**
@@ -36,7 +47,7 @@ public class JDialogTrinhDoHocVan extends javax.swing.JDialog {
         lblchuyennganh = new javax.swing.JLabel();
         txtchuyennganh = new javax.swing.JTextField();
         lbltentruong = new javax.swing.JLabel();
-        txttentruong = new javax.swing.JTextField();
+        txtMaTrinhDoHocVan = new javax.swing.JTextField();
         btnthem = new javax.swing.JButton();
         btnsua = new javax.swing.JButton();
         btnxoa = new javax.swing.JButton();
@@ -58,7 +69,27 @@ public class JDialogTrinhDoHocVan extends javax.swing.JDialog {
             new String [] {
                 "Mã Trình Độ Học Vấn", "Tên Trình Dộ", "Chuyên Ngành"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbltrinhdohocvan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbltrinhdohocvanMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbltrinhdohocvan);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -74,7 +105,7 @@ public class JDialogTrinhDoHocVan extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -89,28 +120,68 @@ public class JDialogTrinhDoHocVan extends javax.swing.JDialog {
         txtchuyennganh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         lbltentruong.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lbltentruong.setText("Tên Trường");
+        lbltentruong.setText("Mã Trình Độ Học Vấn");
 
-        txttentruong.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtMaTrinhDoHocVan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         btnthem.setText("Thêm");
+        btnthem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnthemActionPerformed(evt);
+            }
+        });
 
         btnsua.setText("Sửa");
+        btnsua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnsuaActionPerformed(evt);
+            }
+        });
 
         btnxoa.setText("Xóa");
+        btnxoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnxoaActionPerformed(evt);
+            }
+        });
 
         btnmoi.setText("Mới");
+        btnmoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnmoiActionPerformed(evt);
+            }
+        });
 
         btnlast.setText(">|");
+        btnlast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnlastActionPerformed(evt);
+            }
+        });
 
         btnnext.setText(">>");
+        btnnext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnnextActionPerformed(evt);
+            }
+        });
 
         btnpev.setText("<<");
+        btnpev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnpevActionPerformed(evt);
+            }
+        });
 
         btnfirst.setText("|<");
+        btnfirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnfirstActionPerformed(evt);
+            }
+        });
 
         cbotrinhdohocvan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbotrinhdohocvan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cao Đẳng", "Đại Học", "Thạc Sĩ", "Tiến Sĩ", " " }));
+        cbotrinhdohocvan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cao đẳng", "Đại học", "Thạc sĩ", "Tiến sĩ", " " }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -129,8 +200,8 @@ public class JDialogTrinhDoHocVan extends javax.swing.JDialog {
                             .addGap(18, 18, 18)
                             .addComponent(btnmoi, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(txtchuyennganh)
-                        .addComponent(lblchuyennganh)
-                        .addComponent(lbltrinhdohocvan))
+                        .addComponent(lbltrinhdohocvan)
+                        .addComponent(lblchuyennganh))
                     .addComponent(cbotrinhdohocvan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -143,7 +214,7 @@ public class JDialogTrinhDoHocVan extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(btnlast, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lbltentruong)
-                    .addComponent(txttentruong))
+                    .addComponent(txtMaTrinhDoHocVan))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -159,8 +230,8 @@ public class JDialogTrinhDoHocVan extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lbltentruong)
                         .addGap(18, 18, 18)
-                        .addComponent(txttentruong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(49, 49, 49)
+                        .addComponent(txtMaTrinhDoHocVan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(53, 53, 53)
                 .addComponent(lblchuyennganh)
                 .addGap(18, 18, 18)
                 .addComponent(txtchuyennganh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -174,7 +245,7 @@ public class JDialogTrinhDoHocVan extends javax.swing.JDialog {
                     .addComponent(btnpev)
                     .addComponent(btnnext)
                     .addComponent(btnlast))
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         tabs.addTab("Cập nhật", jPanel2);
@@ -208,6 +279,54 @@ public class JDialogTrinhDoHocVan extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tbltrinhdohocvanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbltrinhdohocvanMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            row = tbltrinhdohocvan.getSelectedRow();
+            edit();
+        }
+    }//GEN-LAST:event_tbltrinhdohocvanMouseClicked
+
+    private void btnthemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemActionPerformed
+        // TODO add your handling code here:
+        insert();
+    }//GEN-LAST:event_btnthemActionPerformed
+
+    private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
+        // TODO add your handling code here:
+        update();
+    }//GEN-LAST:event_btnsuaActionPerformed
+
+    private void btnxoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnxoaActionPerformed
+        // TODO add your handling code here:
+        delete();
+    }//GEN-LAST:event_btnxoaActionPerformed
+
+    private void btnmoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmoiActionPerformed
+        // TODO add your handling code here:
+        clear();
+    }//GEN-LAST:event_btnmoiActionPerformed
+
+    private void btnfirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnfirstActionPerformed
+        // TODO add your handling code here:
+        first();
+    }//GEN-LAST:event_btnfirstActionPerformed
+
+    private void btnpevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnpevActionPerformed
+        // TODO add your handling code here:
+        prev();
+    }//GEN-LAST:event_btnpevActionPerformed
+
+    private void btnnextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnextActionPerformed
+        // TODO add your handling code here:
+        next();
+    }//GEN-LAST:event_btnnextActionPerformed
+
+    private void btnlastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlastActionPerformed
+        // TODO add your handling code here:
+        last();
+    }//GEN-LAST:event_btnlastActionPerformed
 
     /**
      * @param args the command line arguments
@@ -270,7 +389,181 @@ public class JDialogTrinhDoHocVan extends javax.swing.JDialog {
     private javax.swing.JLabel lbltrinhdohocvan;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JTable tbltrinhdohocvan;
+    private javax.swing.JTextField txtMaTrinhDoHocVan;
     private javax.swing.JTextField txtchuyennganh;
-    private javax.swing.JTextField txttentruong;
     // End of variables declaration//GEN-END:variables
+
+    void init() {
+        filltable();
+    }
+
+    void filltable() {
+        DefaultTableModel model = (DefaultTableModel) tbltrinhdohocvan.getModel();
+        model.setRowCount(0);
+        try {
+            ArrayList<TrinhDoHocVan> list = dao.select();
+            for (TrinhDoHocVan tdhv : list) {
+                Object[] row = {
+                    tdhv.getMaTDHV(),
+                    tdhv.getTenTrinhDo(),
+                    tdhv.getChuyenNganh()
+                };
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    void edit() {
+        String mtdhv = (String) tbltrinhdohocvan.getValueAt(row, 0);
+        try {
+            TrinhDoHocVan tdhv = dao.selectByMaTDHV(mtdhv);
+            this.setFrom(tdhv);
+            tabs.setSelectedIndex(1);
+            this.updateStatus();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    void setFrom(TrinhDoHocVan tdhv) {
+        txtMaTrinhDoHocVan.setText(tdhv.getMaTDHV());
+
+        String tenTrinhDo = tdhv.getTenTrinhDo();
+        if ("Cao đẳng".equals(tenTrinhDo)) {
+            cbotrinhdohocvan.setSelectedIndex(0);
+        } else if ("Đại học".equals(tenTrinhDo)) {
+            cbotrinhdohocvan.setSelectedIndex(1);
+        } else if ("Thạc sĩ".equals(tenTrinhDo)) {
+            cbotrinhdohocvan.setSelectedIndex(2);
+        } else if ("Tiến sĩ".equals(tenTrinhDo)) {
+            cbotrinhdohocvan.setSelectedIndex(3);
+        }
+
+        txtchuyennganh.setText(tdhv.getChuyenNganh());
+        this.updateStatus();
+    }
+
+    boolean check() {
+        String thongbao = "";
+        if (txtMaTrinhDoHocVan.getText().trim().isEmpty()) {
+            thongbao += "Vui lòng nhập mã trình độ học vấn \n";
+        }
+        if (txtchuyennganh.getText().trim().isEmpty()) {
+            thongbao += "Vui lòng nhập chuyên ngành \n";
+        }
+
+        if (thongbao.length() > 0) {
+            MsgBox.alert(this, thongbao);
+            return false;
+        }
+        return true;
+    }
+
+    TrinhDoHocVan getfrom() {
+        TrinhDoHocVan tdhv = new TrinhDoHocVan();
+        tdhv.setMaTDHV(txtMaTrinhDoHocVan.getText());
+        tdhv.setTenTrinhDo((String) cbotrinhdohocvan.getSelectedItem());
+        tdhv.setChuyenNganh(txtchuyennganh.getText());
+        return tdhv;
+    }
+
+    void insert() {
+        if (check()) {
+            try {
+                String mtdhv = txtMaTrinhDoHocVan.getText();
+                TrinhDoHocVan tdhv = dao.selectByMaTDHV(mtdhv);
+                if (tdhv.getMaTDHV() != null) {
+                    MsgBox.alert(this, "Mã trình độ học vấn đã tồn tại");
+                    return;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            TrinhDoHocVan tdhv = getfrom();
+            try {
+                dao.insert(tdhv);
+                filltable();
+                MsgBox.alert(this, "Thêm mới thành công");
+            } catch (Exception e) {
+                e.printStackTrace();
+                MsgBox.alert(this, "Thêm mới thất bại");
+            }
+
+        }
+    }
+
+    void update() {
+        if (check()) {
+            TrinhDoHocVan tdhv = getfrom();
+            try {
+                dao.update(tdhv);
+                filltable();
+                MsgBox.alert(this, "Update thành công");
+            } catch (Exception e) {
+                e.printStackTrace();
+                MsgBox.alert(this, "Update thất bại");
+            }
+        }
+    }
+
+    void delete() {
+        if (MsgBox.confirm(this, "Bạn có chắc muốn xóa không")) {
+            try {
+                TrinhDoHocVan tdhv = getfrom();
+                dao.delete(tdhv);
+                this.filltable();
+                this.clear();
+                MsgBox.alert(this, "Xóa thành công!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                MsgBox.alert(this, "Xóa thất bại!");
+            }
+        }
+
+    }
+
+    void clear() {
+        TrinhDoHocVan tdhv = new TrinhDoHocVan();
+        this.setFrom(tdhv);
+        row = -1;
+    }
+
+    void updateStatus() {
+        boolean edit = (this.row >= 0);
+        boolean first = (this.row == 0);
+        boolean last = (this.row == tbltrinhdohocvan.getRowCount() - 1);
+        btnthem.setEnabled(!edit);
+        btnsua.setEnabled(edit);
+        btnxoa.setEnabled(edit);
+        btnfirst.setEnabled(edit && !first);
+        btnpev.setEnabled(edit && !first);
+        btnnext.setEnabled(edit && !last);
+        btnlast.setEnabled(edit && !last);
+    }
+
+    void first() {
+        this.row = 0;
+        this.edit();
+    }
+
+    void last() {
+        this.row = tbltrinhdohocvan.getRowCount() - 1;
+        this.edit();
+    }
+
+    void prev() {
+        if (row > 0) {
+            this.row--;
+            this.edit();
+        }
+    }
+
+    void next() {
+        if (this.row < tbltrinhdohocvan.getRowCount() - 1) {
+            this.row++;
+            this.edit();
+        }
+    }
 }

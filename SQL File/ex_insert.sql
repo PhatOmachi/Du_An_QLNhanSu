@@ -35,11 +35,11 @@ INSERT INTO ChucVu (maCV, tenCV) VALUES
 
 -- Insert into TrinhDoHocVan table
 INSERT INTO TrinhDoHocVan (maTDHV, tenTrinhDo, chuyenNganh) VALUES
-  ('TDHV001', 'Đại học', 'Kế Toán'),
-  ('TDHV002', 'Thạc sĩ', 'Quản trị nhân sự'),
-  ('TDHV003', 'Tiến sĩ', 'Công nghệ thông tin'),
-  ('TDHV004', 'Cao đẳng', 'Marketing'),
-  ('TDHV005', 'Khác', NULL);
+  ('TDHV001', N'Đại học', N'Kế Toán'),
+  ('TDHV002', N'Thạc sĩ', N'Quản trị nhân sự'),
+  ('TDHV003', N'Tiến sĩ', N'Công nghệ thông tin'),
+  ('TDHV004', N'Cao đẳng', N'Marketing'),
+  ('TDHV005', N'Khác', NULL);
 
 -- Insert into NhanVien table
 INSERT INTO NhanVien (maNV, hoTen, ngaySinh, queQuan, gioiTinh, danToc, soDienThoai, maPB, maCV, maTDHV, bacLuong) VALUES
@@ -56,3 +56,13 @@ INSERT INTO ThoiGianCongTac (maNV, maCV, ngayNhapChuc) VALUES
   ('NV003', 'CV001', '2018-09-20'),
   ('NV004', 'CV002', '2013-12-05'),
   ('NV005', 'CV005', '2017-02-10');
+
+-- Insert into CongTac table
+insert into CongTac(maCT, soQuyetDinh, ngayCoHieuLuc, nhiemVuCu, nhiemVuMoi, maNV)
+values
+    ('CT001', 123, '2023-01-01', 'Nhiệm vụ cũ 001', 'Nhiệm vụ mới 001', 'NV001'),
+    ('CT002', 124, '2023-02-01', 'Nhiệm vụ cũ 002', 'Nhiệm vụ mới 002', 'NV002'),
+    ('CT003', 125, '2023-03-01', 'Nhiệm vụ cũ 003', 'Nhiệm vụ mới 003', 'NV003'),
+    ('CT004', 126, '2023-04-01', 'Nhiệm vụ cũ 004', 'Nhiệm vụ mới 004', 'NV004'),
+    ('CT005', 127, '2023-05-01', 'Nhiệm vụ cũ 005', 'Nhiệm vụ mới 005', 'NV005');
+   

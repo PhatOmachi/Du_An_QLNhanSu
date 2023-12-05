@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package dao;
 
 import entity.PhongBan;
@@ -31,6 +30,11 @@ public class PhongBanDAO {
     public ArrayList<PhongBan> select() {
         String selectQuery = "SELECT * FROM PhongBan";
         return select(selectQuery);
+    }
+
+    public ArrayList<PhongBan> selectSearch(String key) {
+        String select = "select * from phongban where mapb like ? or tenpb like ? or diachi like ? or soDienThoaiPB like ?";
+        return select(select, "%" + key + "%", "%" + key + "%", "%" + key + "%", "%" + key + "%");
     }
 
     public PhongBan selectByMaPB(String maPB) {
@@ -71,4 +75,3 @@ public class PhongBanDAO {
         return phongBan;
     }
 }
-

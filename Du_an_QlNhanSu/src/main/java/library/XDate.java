@@ -28,6 +28,14 @@ public class XDate {
         }
     }
     
+    public static java.sql.Date toDateSQL(String date) {
+        try {
+            return (java.sql.Date) new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     //chuyển từ dạng Date -> String theo pattern[0]
     public static String toString(Date date, String... pattern) {
         if (pattern.length > 0) {

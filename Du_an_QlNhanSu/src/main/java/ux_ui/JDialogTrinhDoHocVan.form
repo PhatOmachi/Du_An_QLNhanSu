@@ -78,7 +78,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" pref="412" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="378" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -96,12 +96,15 @@
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="3" rowCount="2">
-                        <Column editable="true" title="M&#xe3; Tr&#xec;nh &#x110;&#x1ed9; H&#x1ecd;c V&#x1ea5;n" type="java.lang.Object"/>
-                        <Column editable="true" title="T&#xea;n Tr&#xec;nh D&#x1ed9;" type="java.lang.Object"/>
-                        <Column editable="true" title="Chuy&#xea;n Ng&#xe0;nh" type="java.lang.Object"/>
+                        <Column editable="false" title="M&#xe3; Tr&#xec;nh &#x110;&#x1ed9; H&#x1ecd;c V&#x1ea5;n" type="java.lang.String"/>
+                        <Column editable="false" title="T&#xea;n Tr&#xec;nh D&#x1ed9;" type="java.lang.String"/>
+                        <Column editable="false" title="Chuy&#xea;n Ng&#xe0;nh" type="java.lang.String"/>
                       </Table>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbltrinhdohocvanMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -133,8 +136,8 @@
                                   <Component id="btnmoi" min="-2" pref="72" max="-2" attributes="0"/>
                               </Group>
                               <Component id="txtchuyennganh" alignment="0" max="32767" attributes="0"/>
-                              <Component id="lblchuyennganh" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="lbltrinhdohocvan" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblchuyennganh" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="cbotrinhdohocvan" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -150,7 +153,7 @@
                               <Component id="btnlast" min="-2" pref="72" max="-2" attributes="0"/>
                           </Group>
                           <Component id="lbltentruong" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="txttentruong" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtMaTrinhDoHocVan" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace pref="53" max="32767" attributes="0"/>
                   </Group>
@@ -170,10 +173,10 @@
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="lbltentruong" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="txttentruong" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtMaTrinhDoHocVan" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                       <Component id="lblchuyennganh" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="txtchuyennganh" min="-2" max="-2" attributes="0"/>
@@ -188,7 +191,7 @@
                           <Component id="btnnext" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnlast" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="66" max="32767" attributes="0"/>
+                      <EmptySpace pref="62" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -222,10 +225,10 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="T&#xea;n Tr&#x1b0;&#x1edd;ng"/>
+                <Property name="text" type="java.lang.String" value="M&#xe3; Tr&#xec;nh &#x110;&#x1ed9; H&#x1ecd;c V&#x1ea5;n"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txttentruong">
+            <Component class="javax.swing.JTextField" name="txtMaTrinhDoHocVan">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="0"/>
@@ -236,41 +239,65 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Th&#xea;m"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnthemActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnsua">
               <Properties>
                 <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnsuaActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnxoa">
               <Properties>
                 <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnxoaActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnmoi">
               <Properties>
                 <Property name="text" type="java.lang.String" value="M&#x1edb;i"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnmoiActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnlast">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&gt;|"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnlastActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnnext">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&gt;&gt;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnnextActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnpev">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&lt;&lt;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnpevActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnfirst">
               <Properties>
                 <Property name="text" type="java.lang.String" value="|&lt;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnfirstActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbotrinhdohocvan">
               <Properties>
@@ -279,10 +306,10 @@
                 </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="5">
-                    <StringItem index="0" value="Cao &#x110;&#x1eb3;ng"/>
-                    <StringItem index="1" value="&#x110;&#x1ea1;i H&#x1ecd;c"/>
-                    <StringItem index="2" value="Th&#x1ea1;c S&#x129;"/>
-                    <StringItem index="3" value="Ti&#x1ebf;n S&#x129;"/>
+                    <StringItem index="0" value="Cao &#x111;&#x1eb3;ng"/>
+                    <StringItem index="1" value="&#x110;&#x1ea1;i h&#x1ecd;c"/>
+                    <StringItem index="2" value="Th&#x1ea1;c s&#x129;"/>
+                    <StringItem index="3" value="Ti&#x1ebf;n s&#x129;"/>
                     <StringItem index="4" value=" "/>
                   </StringArray>
                 </Property>
