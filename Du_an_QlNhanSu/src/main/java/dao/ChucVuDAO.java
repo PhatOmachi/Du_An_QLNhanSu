@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package dao;
 
 import entity.ChucVu;
@@ -31,6 +30,11 @@ public class ChucVuDAO {
     public ArrayList<ChucVu> select() {
         String selectQuery = "SELECT * FROM ChucVu";
         return select(selectQuery);
+    }
+
+    public ArrayList<ChucVu> selectSearch(String key) {
+        String select = "select * from phongban where maCV like ? or tencv like ?";
+        return select(select, "%" + key + "%", "%" + key + "%");
     }
 
     public ChucVu selectByMaCV(String maCV) {
@@ -69,4 +73,3 @@ public class ChucVuDAO {
         return chucVu;
     }
 }
-
