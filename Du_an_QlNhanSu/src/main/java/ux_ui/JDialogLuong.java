@@ -4,11 +4,20 @@
  */
 package ux_ui;
 
+import dao.LuongDAO;
+import entity.Luong;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import library.MsgBox;
+
 /**
  *
  * @author TAN LOC
  */
 public class JDialogLuong extends javax.swing.JDialog {
+
+    LuongDAO dao = new LuongDAO();
+    int row = -1;
 
     /**
      * Creates new form JDialogLuong
@@ -16,6 +25,9 @@ public class JDialogLuong extends javax.swing.JDialog {
     public JDialogLuong(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
+        init();
+
     }
 
     /**
@@ -60,7 +72,20 @@ public class JDialogLuong extends javax.swing.JDialog {
             new String [] {
                 "Bậc Lương", "Lương Cơ Bản", "Hệ Số Lương", "Hệ Số Phụ Cấp"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblLuong.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblLuongMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblLuong);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -103,20 +128,60 @@ public class JDialogLuong extends javax.swing.JDialog {
         txthesoluong.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         btnthem.setText("Thêm");
+        btnthem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnthemActionPerformed(evt);
+            }
+        });
 
         btnsua.setText("Sửa");
+        btnsua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnsuaActionPerformed(evt);
+            }
+        });
 
         btnxoa.setText("Xóa");
+        btnxoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnxoaActionPerformed(evt);
+            }
+        });
 
         btnmoi.setText("Mới");
+        btnmoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnmoiActionPerformed(evt);
+            }
+        });
 
         btnlast.setText(">|");
+        btnlast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnlastActionPerformed(evt);
+            }
+        });
 
         btnnext.setText(">>");
+        btnnext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnnextActionPerformed(evt);
+            }
+        });
 
         btnpev.setText("<<");
+        btnpev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnpevActionPerformed(evt);
+            }
+        });
 
         btnfirst.setText("|<");
+        btnfirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnfirstActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -177,16 +242,17 @@ public class JDialogLuong extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(txthesophucap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(70, 70, 70)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnthem)
-                    .addComponent(btnsua)
-                    .addComponent(btnxoa)
-                    .addComponent(btnmoi)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnfirst)
                         .addComponent(btnpev)
                         .addComponent(btnnext)
-                        .addComponent(btnlast)))
+                        .addComponent(btnlast))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnthem)
+                        .addComponent(btnsua)
+                        .addComponent(btnxoa)
+                        .addComponent(btnmoi)))
                 .addContainerGap(70, Short.MAX_VALUE))
         );
 
@@ -221,6 +287,54 @@ public class JDialogLuong extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tblLuongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLuongMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            row = tblLuong.getSelectedRow();
+            edit();
+        }
+    }//GEN-LAST:event_tblLuongMouseClicked
+
+    private void btnthemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemActionPerformed
+        // TODO add your handling code here:
+        insert();
+    }//GEN-LAST:event_btnthemActionPerformed
+
+    private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
+        // TODO add your handling code here:
+        update();
+    }//GEN-LAST:event_btnsuaActionPerformed
+
+    private void btnxoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnxoaActionPerformed
+        // TODO add your handling code here:
+        delete();
+    }//GEN-LAST:event_btnxoaActionPerformed
+
+    private void btnmoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmoiActionPerformed
+        // TODO add your handling code here:
+        clear();
+    }//GEN-LAST:event_btnmoiActionPerformed
+
+    private void btnfirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnfirstActionPerformed
+        // TODO add your handling code here:
+        first();
+    }//GEN-LAST:event_btnfirstActionPerformed
+
+    private void btnpevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnpevActionPerformed
+        // TODO add your handling code here:
+        prev();
+    }//GEN-LAST:event_btnpevActionPerformed
+
+    private void btnnextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnextActionPerformed
+        // TODO add your handling code here:
+        next();
+    }//GEN-LAST:event_btnnextActionPerformed
+
+    private void btnlastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlastActionPerformed
+        // TODO add your handling code here:
+        last();
+    }//GEN-LAST:event_btnlastActionPerformed
 
     /**
      * @param args the command line arguments
@@ -288,4 +402,176 @@ public class JDialogLuong extends javax.swing.JDialog {
     private javax.swing.JTextField txtluong;
     private javax.swing.JTextField txtluongcoban;
     // End of variables declaration//GEN-END:variables
+    void init() {
+        filltable();
+    }
+
+    void filltable() {
+        DefaultTableModel model = (DefaultTableModel) tblLuong.getModel();
+        model.setRowCount(0);
+
+        try {
+            ArrayList<Luong> list = dao.select();
+            for (Luong luong : list) {
+                Object[] row = {
+                    luong.getBacLuong(),
+                    luong.getLuongCoBan(),
+                    luong.getHeSoLuong(),
+                    luong.getHeSoPhuCap()
+                };
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    void edit() {
+        Double bacluong = (Double) tblLuong.getValueAt(row, 0);
+        try {
+            Luong luong = dao.selectByBacLuong(bacluong);
+            this.setfrom(luong);
+            tabs.setSelectedIndex(1);
+            this.updateStatus();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    void setfrom(Luong luong) {
+        txtluong.setText(String.valueOf(luong.getBacLuong()));
+        txtluongcoban.setText(String.valueOf(luong.getHeSoLuong()));
+        txthesoluong.setText(String.valueOf(luong.getHeSoLuong()));
+        txthesophucap.setText(String.valueOf(luong.getLuongCoBan()));
+        this.updateStatus();
+    }
+
+    boolean check() {
+        String thongbao = "";
+        if (txtluong.getText().trim().isEmpty()) {
+            thongbao += "Vui lòng nhập bậc lương \n";
+        }
+        if (txtluongcoban.getText().trim().isEmpty()) {
+            thongbao += "Vui lòng nhập lương cơ bản \n";
+        }
+        if (txthesoluong.getText().trim().isEmpty()) {
+            thongbao += "Vui lòng nhập hệ số lương \n";
+        }
+        if (txthesophucap.getText().trim().isEmpty()) {
+            thongbao += "Vui lòng nhập hệ số phụ cấp \n";
+        }
+
+        if (thongbao.length() > 0) {
+            MsgBox.alert(this, thongbao);
+            return false;
+        }
+        return true;
+    }
+
+    Luong getfrom() {
+        Luong luong = new Luong();
+        luong.setBacLuong(Double.parseDouble(txtluong.getText()));
+        luong.setLuongCoBan(Double.parseDouble(txtluongcoban.getText()));
+        luong.setHeSoLuong(Double.parseDouble(txthesoluong.getText()));
+        luong.setHeSoPhuCap(Double.parseDouble(txthesophucap.getText()));
+        return luong;
+    }
+
+    void insert() {
+        if (check()) {
+            try {
+                Double bacluong = Double.parseDouble(txtluong.getText());
+                Luong luong = dao.selectByBacLuong(bacluong);
+                if (luong.getBacLuong() != null) {
+                    MsgBox.alert(this, "Mã bậc lương này đã tồn tại");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            Luong luong = getfrom();
+
+            try {
+                dao.insert(luong);
+                filltable();
+                MsgBox.alert(this, "Thêm mới thành công");
+            } catch (Exception e) {
+                e.printStackTrace();
+                MsgBox.alert(this, "Thêm mới thất bại");
+            }
+        }
+    }
+
+    void update() {
+        if (check()) {
+            Luong luong = getfrom();
+            try {
+                dao.update(luong);
+                filltable();
+                MsgBox.alert(this, "Update thành công");
+            } catch (Exception e) {
+                e.printStackTrace();
+                MsgBox.alert(this, "Update thất bại");
+            }
+        }
+    }
+
+    void delete() {
+        if (MsgBox.confirm(this, "Bạn có chắc muốn xóa không")) {
+            try {
+                Luong luong = getfrom();
+                dao.delete(luong);
+                this.filltable();
+                this.clear();
+                MsgBox.alert(this, "Xóa thành công!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                MsgBox.alert(this, "Xóa thất bại!");
+            }
+        }
+
+    }
+
+    void clear() {
+        Luong luong = new Luong();
+        this.setfrom(luong);
+        row = -1;
+    }
+
+    void updateStatus() {
+        boolean edit = (this.row >= 0);
+        boolean first = (this.row == 0);
+        boolean last = (this.row == tblLuong.getRowCount() - 1);
+        btnthem.setEnabled(!edit);
+        btnsua.setEnabled(edit);
+        btnxoa.setEnabled(edit);
+        btnfirst.setEnabled(edit && !first);
+        btnpev.setEnabled(edit && !first);
+        btnnext.setEnabled(edit && !last);
+        btnlast.setEnabled(edit && !last);
+    }
+
+    void first() {
+        this.row = 0;
+        this.edit();
+    }
+
+    void last() {
+        this.row = tblLuong.getRowCount() - 1;
+        this.edit();
+    }
+
+    void prev() {
+        if (row > 0) {
+            this.row--;
+            this.edit();
+        }
+    }
+
+    void next() {
+        if (this.row < tblLuong.getRowCount() - 1) {
+            this.row++;
+            this.edit();
+        }
+    }
 }
