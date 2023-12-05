@@ -43,6 +43,7 @@ create table TrinhDoHocVan (
 create table NhanVien(
 	maNV nvarchar(10) not null,
 	hoTen nvarchar(30) not null,
+	avatar nvarchar(127),
 	ngaySinh date,
 	queQuan nvarchar(max),
 	gioiTinh bit,

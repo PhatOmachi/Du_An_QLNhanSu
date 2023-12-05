@@ -9,7 +9,7 @@ import java.util.Date;
 public class NhanVien {
 
     private String maNV;
-    private String hoTen;
+    private String hoTen, avatar;
     private Date ngaySinh;
     private String queQuan;
     private Boolean gioiTinh;
@@ -33,6 +33,29 @@ public class NhanVien {
         this.maCV = maCV;
         this.maTDHV = maTDHV;
         this.bacLuong = bacLuong;
+    }
+
+    public NhanVien(String maNV, String hoTen, String avatar, Date ngaySinh, String queQuan, Boolean gioiTinh, String danToc, String soDienThoai, String maPB, String maCV, String maTDHV, Double bacLuong) {
+        this.maNV = maNV;
+        this.hoTen = hoTen;
+        this.avatar = avatar;
+        this.ngaySinh = ngaySinh;
+        this.queQuan = queQuan;
+        this.gioiTinh = gioiTinh;
+        this.danToc = danToc;
+        this.soDienThoai = soDienThoai;
+        this.maPB = maPB;
+        this.maCV = maCV;
+        this.maTDHV = maTDHV;
+        this.bacLuong = bacLuong;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getMaPB() {

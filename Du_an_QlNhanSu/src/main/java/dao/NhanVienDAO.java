@@ -15,8 +15,8 @@ import library.Jdbc;
 public class NhanVienDAO {
 
     public void insert(NhanVien nhanVien) {
-        String insertQuery = "INSERT INTO NhanVien (maNV, hoTen, ngaySinh, queQuan, gioiTinh, danToc, soDienThoai, maPB, maCV, maTDHV, bacLuong) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        Jdbc.executeUpdate(insertQuery, nhanVien.getMaNV(), nhanVien.getHoTen(), nhanVien.getNgaySinh(), nhanVien.getQueQuan(),
+        String insertQuery = "INSERT INTO NhanVien (maNV, hoTen, avatar, ngaySinh, queQuan, gioiTinh, danToc, soDienThoai, maPB, maCV, maTDHV, bacLuong) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        Jdbc.executeUpdate(insertQuery, nhanVien.getMaNV(), nhanVien.getHoTen(), nhanVien.getAvatar(),nhanVien.getNgaySinh(), nhanVien.getQueQuan(),
                 nhanVien.getGioiTinh(), nhanVien.getDanToc(), nhanVien.getSoDienThoai(), nhanVien.getMaPB(), nhanVien.getMaCV(),
                 nhanVien.getMaTDHV(), nhanVien.getBacLuong());
     }
@@ -27,8 +27,8 @@ public class NhanVienDAO {
     }
 
     public void update(NhanVien nhanVien) {
-        String updateQuery = "UPDATE NhanVien SET hoTen = ?, ngaySinh = ?, queQuan = ?, gioiTinh = ?, danToc = ?, soDienThoai = ?, maPB = ?, maCV = ?, maTDHV = ?, bacLuong = ? WHERE maNV = ?";
-        Jdbc.executeUpdate(updateQuery, nhanVien.getHoTen(), nhanVien.getNgaySinh(), nhanVien.getQueQuan(),
+        String updateQuery = "UPDATE NhanVien SET hoTen = ?, ngaySinh = ?, avatar = ?, queQuan = ?, gioiTinh = ?, danToc = ?, soDienThoai = ?, maPB = ?, maCV = ?, maTDHV = ?, bacLuong = ? WHERE maNV = ?";
+        Jdbc.executeUpdate(updateQuery, nhanVien.getHoTen(), nhanVien.getNgaySinh(), nhanVien.getAvatar(),nhanVien.getQueQuan(),
                 nhanVien.getGioiTinh(), nhanVien.getDanToc(), nhanVien.getSoDienThoai(), nhanVien.getMaPB(), nhanVien.getMaCV(),
                 nhanVien.getMaTDHV(), nhanVien.getBacLuong(), nhanVien.getMaNV());
     }
@@ -75,6 +75,7 @@ public class NhanVienDAO {
         NhanVien nhanVien = new NhanVien(
                 resultSet.getString("maNV"),
                 resultSet.getString("hoTen"),
+                resultSet.getString("avatar"),
                 resultSet.getDate("ngaySinh"),
                 resultSet.getString("queQuan"),
                 resultSet.getBoolean("gioiTinh"),
