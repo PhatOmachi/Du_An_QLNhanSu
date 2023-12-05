@@ -194,7 +194,15 @@ public class JDialogChucVu extends javax.swing.JDialog {
             new String [] {
                 "Mã Chức Vụ", "Tên Chức Vụ"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblChucVu);
 
         txttimkiem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
