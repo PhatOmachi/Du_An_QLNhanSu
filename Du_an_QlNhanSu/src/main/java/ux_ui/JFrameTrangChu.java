@@ -46,6 +46,7 @@ public class JFrameTrangChu extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jSeparator10 = new javax.swing.JToolBar.Separator();
         jButton6 = new javax.swing.JButton();
+        btnDoiMatKhau = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -131,7 +132,15 @@ public class JFrameTrangChu extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton6);
 
-        jLabel1.setText("jLabel1");
+        btnDoiMatKhau.setText("Đổi mật khẩu");
+        btnDoiMatKhau.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDoiMatKhauActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnDoiMatKhau);
+
+        jLabel1.setText("logo");
 
         jLabel3.setBackground(new java.awt.Color(204, 255, 255));
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/logo.png"))); // NOI18N
@@ -141,7 +150,7 @@ public class JFrameTrangChu extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(91, Short.MAX_VALUE)
+                .addContainerGap(77, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 696, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -163,7 +172,7 @@ public class JFrameTrangChu extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(17, 17, 17)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -213,6 +222,10 @@ public class JFrameTrangChu extends javax.swing.JFrame {
         new JDialogLuong(this, true).setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void btnDoiMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoiMatKhauActionPerformed
+new JDialogDoiMatKhau(this, true).setVisible(true);
+    }//GEN-LAST:event_btnDoiMatKhauActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -249,6 +262,7 @@ public class JFrameTrangChu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDoiMatKhau;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

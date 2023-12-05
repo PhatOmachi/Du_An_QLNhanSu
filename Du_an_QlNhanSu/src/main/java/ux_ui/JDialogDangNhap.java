@@ -215,6 +215,7 @@ public class JDialogDangNhap extends javax.swing.JDialog {
         tk = tkdao.selectByTenDangNhap(name);
             if(name.equals(tk.getTenDangNhap()) && mk.equalsIgnoreCase(mk)){
                 MsgBox.alert(this, "Chào mừng "+ tk.getTenDangNhap() + " đã quay trở lại");
+                Auth.taikhoan = tk;
                 this.dispose();
                 new JFrameTrangChu().setVisible(true);
             }else{

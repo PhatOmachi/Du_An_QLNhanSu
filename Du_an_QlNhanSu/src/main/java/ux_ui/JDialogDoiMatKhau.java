@@ -4,6 +4,11 @@
  */
 package ux_ui;
 
+import dao.TaiKhoanDAO;
+import entity.TaiKhoan;
+import library.Auth;
+import library.MsgBox;
+
 /**
  *
  * @author PHAT
@@ -16,6 +21,7 @@ public class JDialogDoiMatKhau extends javax.swing.JDialog {
     public JDialogDoiMatKhau(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        init();
     }
 
     /**
@@ -56,6 +62,13 @@ public class JDialogDoiMatKhau extends javax.swing.JDialog {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("Xác nhận mật khẩu mới");
+
+        txtTenDangNhap.setEditable(false);
+        txtTenDangNhap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTenDangNhapActionPerformed(evt);
+            }
+        });
 
         btnDongY.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnDongY.setText("Đồng ý");
@@ -135,12 +148,22 @@ public class JDialogDoiMatKhau extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDongYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDongYActionPerformed
-
+        
+        if(checkRong()){
+            doiMatKhau();
+            this.dispose();
+        }
+        
+        
     }//GEN-LAST:event_btnDongYActionPerformed
 
     private void btnHuyBoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyBoActionPerformed
-
+        this.dispose();
     }//GEN-LAST:event_btnHuyBoActionPerformed
+
+    private void txtTenDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenDangNhapActionPerformed
+
+    }//GEN-LAST:event_txtTenDangNhapActionPerformed
 
     /**
      * @param args the command line arguments
@@ -198,4 +221,68 @@ public class JDialogDoiMatKhau extends javax.swing.JDialog {
     private javax.swing.JTextField txtTenDangNhap;
     private javax.swing.JPasswordField txtXacNhanMatKhauMoi;
     // End of variables declaration//GEN-END:variables
+
+    private void init() {
+        txtTenDangNhap.setText(Auth.taikhoan.getTenDangNhap());
+        setLocationRelativeTo(null);
+
+    }
+
+    private void doiMatKhau() {
+        if (!checkMKDangNhap()) {
+            MsgBox.alert(this, "Bạn nhập mật khẩu sai");
+            return;
+        }
+
+        if (checkMK()) {
+            MsgBox.alert(this, "Đổi mật khẩu thành công");
+            String mk1 = new String(txtMatKhauMoi.getPassword());
+            new TaiKhoanDAO().updateCuaDoiMatKhau(mk1, txtTenDangNhap.getText());
+        }
+
+    }
+
+    boolean checkMKDangNhap() {
+        String mk1 = new String(txtMatKhauHienTai.getPassword());
+        TaiKhoan tk = new TaiKhoanDAO().selectByTenDangNhap(txtTenDangNhap.getText());
+        if (tk.getMatKhau().equalsIgnoreCase(mk1)) {
+            return true;
+        }
+        return false;
+    }
+
+    boolean checkMK() {
+        String mk1 = new String(txtMatKhauMoi.getPassword());
+        String mk2 = new String(txtXacNhanMatKhauMoi.getPassword());
+
+        if (mk1.equals(mk2)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    boolean checkRong() {
+        String mkht = new String(txtMatKhauHienTai.getPassword());
+        String mk1 = new String(txtMatKhauMoi.getPassword());
+        String mk2 = new String(txtXacNhanMatKhauMoi.getPassword());
+
+        if (mkht.isEmpty()) {
+            MsgBox.alert(this, "Vui lòng không để trống mk hiện tại");
+            return false;
+        }
+
+        if (mk1.isEmpty()) {
+            MsgBox.alert(this, "Vui lòng không để trống mật khẩu mới");
+            return false; 
+        }
+        
+        if(mk2.isEmpty()){
+            MsgBox.alert(this, "Vui lòng không để trống xác nhận mật khẩu");
+            return false; 
+        }
+        
+        return true;
+    }
+
 }
