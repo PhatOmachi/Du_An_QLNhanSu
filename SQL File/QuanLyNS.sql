@@ -1,3 +1,81 @@
+use master 
+go
+ALTER LOGIN sa
+WITH PASSWORD = 'root'
+go
+drop database if exists QuanLyNS;
+go
+create database QuanLyNS;
+go
+use QuanLyNS
+go
+create table TaiKhoan(
+	tenDangNhap nvarchar(200) not null,
+	matKhau nvarchar(200) not null,
+	primary key (tenDangNhap)
+)
+
+create table PhongBan (
+	maPB nvarchar(10) primary key,
+	tenPB nvarchar(30) not null,
+	diaChi nvarchar(50),
+	soDienThoaiPB nvarchar(20)
+)
+
+create table Luong (
+	bacLuong float primary key,
+	luongCoBan float not null,
+	heSoLuong float not null,
+	heSoPhuCap float
+)
+
+create table ChucVu (
+	maCV nvarchar(10) primary key,
+	tenCV nvarchar(30) not null
+)
+
+create table TrinhDoHocVan (
+	maTDHV nvarchar(10) primary key,
+	tenTrinhDo nvarchar(30) not null,
+	chuyenNganh nvarchar(30)
+)
+
+create table NhanVien(
+	maNV nvarchar(10) not null,
+	hoTen nvarchar(30) not null,
+	ngaySinh date,
+	queQuan nvarchar(max),
+	gioiTinh bit,
+	danToc nvarchar(20),
+	soDienThoai nvarchar(40),
+	maPB nvarchar(10),
+	maCV nvarchar(10),
+	maTDHV nvarchar(10),
+	bacLuong float,
+	constraint pk_nv primary key (maNV),
+	foreign key (maPB) references PhongBan(maPB),
+	foreign key (maTDHV) references TrinhDoHocVan(maTDHV),
+	foreign key (bacLuong) references Luong(bacLuong),
+)
+
+create table ThoiGianCongTac (
+	maNV nvarchar(10) not null,
+	maCV nvarchar(10) not null,
+	ngayNhapChuc date not null,
+	constraint fk_tgct_nv foreign key (maNV) references nhanVien(maNV),
+	constraint fk_tgct_cv foreign key (maCV) references ChucVu(maCV)
+)
+
+create table CongTac(
+	maCT nvarchar(10) primary key,
+	soQuyetDinh int not null,
+	ngayCoHieuLuc date not null,
+	nhiemVuCu nvarchar(250) not null,
+	nhiemVuMoi nvarchar(250) not null,
+	maNV nvarchar(10) not null,
+	constraint fk_ct_nv foreign key (maNV) references nhanvien(maNV)
+)
+
 use QuanLyNS
 go
 -- example records for demo
@@ -66,3 +144,27 @@ values
     ('CT004', 126, N'2023-04-01', N'Nhiệm vụ cũ 004', N'Nhiệm vụ mới 004', N'NV004'),
     ('CT005', 127, N'2023-05-01', N'Nhiệm vụ cũ 005', N'Nhiệm vụ mới 005', N'NV005');
    
+use QuanLyNS
+go
+
+select * from ThoiGianCongTac
+select * from NhanVien
+select * from ChucVu
+select * from TaiKhoan
+select * from TrinhDoHocVan
+select * from PhongBan
+select * from Luong
+
+go
+create or alter procedure searchNV @val nvarchar(30)
+as
+begin
+	select * from NhanVien nv
+	join PhongBan pb on pb.maPB = nv.maPB
+	join ChucVu cv on nv.maCV = cv.maCV
+	where	hoTen like '%' + @val + '%'
+			or soDienThoai like '%' + @val + '%'
+			or tenCV like '%' + @val + '%'
+			or tenPB like '%' + @val + '%'
+end
+go
