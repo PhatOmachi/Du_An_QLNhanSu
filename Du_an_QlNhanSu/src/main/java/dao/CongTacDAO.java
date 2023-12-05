@@ -23,6 +23,11 @@ public class CongTacDAO {
         String deleteQuery = "DELETE FROM CongTac WHERE maCT = ?";
         Jdbc.executeUpdate(deleteQuery, ct.getMaCT());
     }
+    
+    public void delete(String maNV) {
+        String deleteQuery = "DELETE FROM CongTac WHERE maNV = ?";
+        Jdbc.executeUpdate(deleteQuery, maNV);
+    }
 
     public void update(CongTac ct) {
         String updateQuery = "UPDATE CongTac SET soQuyetDinh = ?, ngayCoHieuLuc = ?, nhiemVuCu = ?"

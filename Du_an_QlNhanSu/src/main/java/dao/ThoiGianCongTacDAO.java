@@ -15,13 +15,18 @@ import library.Jdbc;
 public class ThoiGianCongTacDAO {
 
     public void insert(ThoiGianCongTac thoiGianCongTac) {
-        String insertQuery = "INSERT INTO ThoiGianCongTac (maNV, maCV, ngayNhapChuc) VALUES (?, ?, ?)";
-        Jdbc.executeUpdate(insertQuery, thoiGianCongTac.getMaNV(), thoiGianCongTac.getMaCV(), thoiGianCongTac.getNgayNhapChuc());
+        String insertQuery = "INSERT INTO ThoiGianCongTac (maNV, maCV) VALUES (?, ?)";
+        Jdbc.executeUpdate(insertQuery, thoiGianCongTac.getMaNV(), thoiGianCongTac.getMaCV());
     }
 
     public void delete(ThoiGianCongTac thoiGianCongTac) {
         String deleteQuery = "DELETE FROM ThoiGianCongTac WHERE maNV = ? AND maCV = ?";
         Jdbc.executeUpdate(deleteQuery, thoiGianCongTac.getMaNV(), thoiGianCongTac.getMaCV());
+    }
+    
+    public void delete(String maNV) {
+        String deleteQuery = "DELETE FROM ThoiGianCongTac WHERE maNV = ?";
+        Jdbc.executeUpdate(deleteQuery, maNV);
     }
 
     public void update(ThoiGianCongTac thoiGianCongTac) {

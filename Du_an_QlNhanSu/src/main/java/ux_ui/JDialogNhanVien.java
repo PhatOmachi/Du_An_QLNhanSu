@@ -5,18 +5,21 @@
 package ux_ui;
 
 import dao.ChucVuDAO;
+import dao.CongTacDAO;
 import dao.LuongDAO;
 import dao.NhanVienDAO;
 import dao.PhongBanDAO;
+import dao.ThoiGianCongTacDAO;
 import dao.TrinhDoHocVanDAO;
 import entity.ChucVu;
 import entity.Luong;
 import entity.NhanVien;
 import entity.PhongBan;
+import entity.ThoiGianCongTac;
 import entity.TrinhDoHocVan;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.event.DocumentEvent;
@@ -24,6 +27,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import library.DialogHelper;
+import library.Extension;
 import library.XDate;
 
 /**
@@ -67,14 +71,17 @@ public class JDialogNhanVien extends javax.swing.JDialog {
 
         btnThem.addActionListener(e -> {
             insert();
+            load();
         });
 
         btnSua.addActionListener(e -> {
             update();
+            load();
         });
 
         btnXoa.addActionListener(e -> {
             delete();
+            load();
         });
 
         btnFirst.addActionListener(e -> {
@@ -139,6 +146,8 @@ public class JDialogNhanVien extends javax.swing.JDialog {
         });
 
         loadForm();
+        
+        Extension.setPlaceholder(txtNgaySinh, "dd/MM/yyyy");
 
     }
 
@@ -146,6 +155,7 @@ public class JDialogNhanVien extends javax.swing.JDialog {
 //        if (nvList.isEmpty()) {
 //            return;
 //        }
+        nvList = nvDao.select();
         fillToTable();
     }
 
@@ -188,7 +198,7 @@ public class JDialogNhanVien extends javax.swing.JDialog {
     void setForm(NhanVien nv) {
         txtMaNhanVien.setText(nv.getMaNV());
         txtHoTen.setText(nv.getHoTen());
-        txtNgaySinh.setText(nv.getNgaySinh().toString());
+        txtNgaySinh.setText(XDate.toString(nv.getNgaySinh()));
         txtDanToc.setText(nv.getDanToc());
         txtSdt.setText(nv.getSoDienThoai());
         txtQueQuan.setText(nv.getQueQuan());
@@ -202,15 +212,15 @@ public class JDialogNhanVien extends javax.swing.JDialog {
 
     NhanVien getForm() {
         String maNV = txtMaNhanVien.getText();
-        if (nvDao.selectByMaNV(maNV) != null) {
-            DialogHelper.alert(null, "Mã Nhân Viên đã tồn tại!");
-            return null;
-        }
+//        if (nvDao.selectByMaNV(maNV) != null) {
+//            DialogHelper.alert(null, "Mã Nhân Viên đã tồn tại!");
+//            return null;
+//        }
         String danToc = txtDanToc.getText();
         String soDienThoai = txtSdt.getText();
         String hoTen = txtHoTen.getText();
         String queQuan = txtQueQuan.getText();
-        Date ngaySinh = XDate.toDateSQL(txtNgaySinh.getText());
+        Date ngaySinh = XDate.toDate(txtNgaySinh.getText());
         String maPB = pbList.get(cboPhongBan.getSelectedIndex()).getMaPB();
         String maCV = cvList.get(cboChucVu.getSelectedIndex()).getMaCV();
         String maTDHV = tdhvList.get(cboTDHV.getSelectedIndex()).getMaTDHV();
@@ -218,6 +228,13 @@ public class JDialogNhanVien extends javax.swing.JDialog {
         boolean gioiTinh = rdoNam.isSelected();
 
         return new NhanVien(maNV, hoTen, ngaySinh, queQuan, gioiTinh, danToc, soDienThoai, maPB, maCV, maTDHV, bacLuong);
+    }
+    ThoiGianCongTacDAO tgctDao =  new ThoiGianCongTacDAO();
+    void insertTGCT(NhanVien nv) {
+        String maCV = nv.getMaCV();
+        String maNV = nv.getMaNV();
+        
+        tgctDao.insert(new ThoiGianCongTac(maNV, maCV, XDate.now()));
     }
     
     void search() {
@@ -233,6 +250,7 @@ public class JDialogNhanVien extends javax.swing.JDialog {
             return;
         }
         nvDao.insert(nv);
+        insertTGCT(nv);
         DialogHelper.alert(null, "Thêm nhân viên thành công!");
     }
 
@@ -243,8 +261,11 @@ public class JDialogNhanVien extends javax.swing.JDialog {
             return;
         }
         nvDao.update(nv);
+        insertTGCT(nv);
         DialogHelper.alert(null, "Cập nhật thông tin nhân viên thành công!");
     }
+    
+    
 
     void delete() {
         String maNV = txtMaNhanVien.getText();
@@ -254,6 +275,8 @@ public class JDialogNhanVien extends javax.swing.JDialog {
         }
         NhanVien nv = nvDao.selectByMaNV(maNV);
         if (nv != null) {
+            new CongTacDAO().delete(maNV);
+            tgctDao.delete(maNV);
             nvDao.delete(nv);
         }
         DialogHelper.alert(null, "Xóa thông tin nhân viên thành công!");
@@ -271,6 +294,7 @@ public class JDialogNhanVien extends javax.swing.JDialog {
         cboChucVu.setSelectedIndex(0);
         cboPhongBan.setSelectedIndex(0);
         cboTDHV.setSelectedIndex(0);
+        Extension.setPlaceholder(txtNgaySinh, "dd/MM/yyyy");
     }
 
     void setCBO() {
