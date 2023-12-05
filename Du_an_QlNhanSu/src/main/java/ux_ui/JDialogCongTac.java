@@ -7,9 +7,11 @@ package ux_ui;
 import dao.CongTacDAO;
 import entity.CongTac;
 import entity.Luong;
+import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import library.MsgBox;
+import library.XDate;
 
 /**
  *
@@ -98,6 +100,11 @@ public class JDialogCongTac extends javax.swing.JDialog {
         jButton1.setText("Tìm Kiếm");
 
         txtTimKiem.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtTimKiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTimKiemKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -384,6 +391,10 @@ public class JDialogCongTac extends javax.swing.JDialog {
         first();
     }//GEN-LAST:event_btnfirstActionPerformed
 
+    private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
+        filltableSearch();
+    }//GEN-LAST:event_txtTimKiemKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -458,7 +469,10 @@ public class JDialogCongTac extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     void init() {
+        row = -1;
         filltable();
+        updateStatus();
+        setLocationRelativeTo(null);
     }
     
     void filltable() {
@@ -471,7 +485,29 @@ public class JDialogCongTac extends javax.swing.JDialog {
                 Object[] row = {
                     congTac.getMaCT(),
                     congTac.getSoQuyetDinh(),
-                    congTac.getNgayCoHieuLuc(),
+                    XDate.toString(congTac.getNgayCoHieuLuc(), "dd-MM-yyyy"),
+                    congTac.getNhiemVuCu(),
+                    congTac.getNhiemVuMoi(),
+                    congTac.getMaNV()
+                };
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    void filltableSearch() {
+        DefaultTableModel model = (DefaultTableModel) tblquanlicongtac.getModel();
+        model.setRowCount(0);
+        
+        try {
+            ArrayList<CongTac> list = dao.selectSearch(txtTimKiem.getText().trim());
+            for (CongTac congTac : list) {
+                Object[] row = {
+                    congTac.getMaCT(),
+                    congTac.getSoQuyetDinh(),
+                    XDate.toString(congTac.getNgayCoHieuLuc(), "dd-MM-yyyy"),
                     congTac.getNhiemVuCu(),
                     congTac.getNhiemVuMoi(),
                     congTac.getMaNV()
@@ -496,12 +532,12 @@ public class JDialogCongTac extends javax.swing.JDialog {
     }
     
     void setfrom(CongTac congTac) {
-        txtCongTac.setText(String.valueOf(congTac.getMaCT()));
+        txtCongTac.setText(congTac.getMaCT());
         txtSoQuyetDinh.setText(String.valueOf(congTac.getSoQuyetDinh()));
-        txtNgayCoHieuLuat.setText(String.valueOf(congTac.getNgayCoHieuLuc()));
-        txtNhiemVuCu.setText(String.valueOf(congTac.getNhiemVuCu()));
-        txtNhiemVuMoi.setText(String.valueOf(congTac.getNhiemVuMoi()));
-        txtMaNhanVien.setText(String.valueOf(congTac.getMaNV()));        
+        txtNgayCoHieuLuat.setText(XDate.toString(congTac.getNgayCoHieuLuc(), "dd-MM-yyyy"));
+        txtNhiemVuCu.setText(congTac.getNhiemVuCu());
+        txtNhiemVuMoi.setText(congTac.getNhiemVuMoi());
+        txtMaNhanVien.setText(congTac.getMaNV());
         this.updateStatus();
     }
     
@@ -536,7 +572,7 @@ public class JDialogCongTac extends javax.swing.JDialog {
         CongTac congtac = new CongTac();
         congtac.setMaCT(txtCongTac.getText());
         congtac.setSoQuyetDinh(Integer.valueOf(txtSoQuyetDinh.getText()));
-        congtac.setNgayCoHieuLuc(congtac.getNgayCoHieuLuc());
+        congtac.setNgayCoHieuLuc(XDate.toDate(txtNgayCoHieuLuat.getText(), "dd-MM-yyyy"));
         congtac.setNhiemVuCu(txtNhiemVuCu.getText());
         congtac.setNhiemVuMoi(txtNhiemVuMoi.getText());
         congtac.setMaNV(txtMaNhanVien.getText());
@@ -548,7 +584,7 @@ public class JDialogCongTac extends javax.swing.JDialog {
             String mct = txtCongTac.getText();
             try {
                 CongTac ct = dao.selectByMaCT(mct);
-                if (ct!= null) {
+                if (ct != null) {
                     MsgBox.alert(this, "Mã công tác này đã tồn tại");
                     return;
                 }
@@ -602,7 +638,10 @@ public class JDialogCongTac extends javax.swing.JDialog {
     void clear() {
         CongTac ct = new CongTac();
         this.setfrom(ct);
+        txtNgayCoHieuLuat.setText("");
+        txtSoQuyetDinh.setText("");
         row = -1;
+        updateStatus();
     }
     
     void updateStatus() {

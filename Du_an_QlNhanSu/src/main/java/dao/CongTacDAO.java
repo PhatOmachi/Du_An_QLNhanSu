@@ -30,7 +30,7 @@ public class CongTacDAO {
     }
 
     public void update(CongTac ct) {
-        String updateQuery = "UPDATE CongTac SET soQuyetDinh = ?, ngayCoHieuLuc = ?, nhiemVuCu = ?"
+        String updateQuery = "UPDATE CongTac SET soQuyetDinh = ?, ngayCoHieuLuc = ?, nhiemVuCu = ?, "
                 + "nhiemVuMoi = ?, manv = ?"
                 + " WHERE maCT = ?";
         Jdbc.executeUpdate(updateQuery,
