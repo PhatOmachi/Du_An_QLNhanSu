@@ -294,6 +294,7 @@ public class JDialogNhanVien extends javax.swing.JDialog {
             nvDao.delete(nv);
         }
         DialogHelper.alert(null, "Xóa thông tin nhân viên thành công!");
+        clearForm();
     }
 
     void clearForm() {
