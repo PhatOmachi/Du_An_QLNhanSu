@@ -4,7 +4,7 @@
  */
 package ux_ui;
 
-import entity.ThongKeDao;
+import dao.ThongKeDao;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -288,6 +288,7 @@ public class ThongKeForm extends javax.swing.JFrame {
     void init() {
         fillSoLuonhNhanVienPB();
         fillLuongTheoPB();
+        fillCongTacTheoNV();
     }
     
     void fillSoLuonhNhanVienPB(){
@@ -308,6 +309,19 @@ public class ThongKeForm extends javax.swing.JFrame {
         model.setRowCount(0);
         try {
             ArrayList<Object[]> list = dao.thongKeLuongTheoPB();
+            for (Object[] objects : list) {
+                model.addRow(objects);
+            }
+        } catch (Exception e) {
+            e.fillInStackTrace();
+        }
+    }
+    
+    void fillCongTacTheoNV(){
+        DefaultTableModel model = (DefaultTableModel) tbl4.getModel();
+        model.setRowCount(0);
+        try {
+            ArrayList<Object[]> list = dao.congTacTheoNV();
             for (Object[] objects : list) {
                 model.addRow(objects);
             }
