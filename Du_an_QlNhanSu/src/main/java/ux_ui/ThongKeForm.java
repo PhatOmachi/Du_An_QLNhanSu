@@ -43,6 +43,10 @@ public class ThongKeForm extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbl3 = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        cboNam = new javax.swing.JComboBox<>();
+        chkTang = new javax.swing.JCheckBox();
+        btnTK = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tbl4 = new javax.swing.JTable();
@@ -88,7 +92,7 @@ public class ThongKeForm extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -129,7 +133,7 @@ public class ThongKeForm extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -148,6 +152,16 @@ public class ThongKeForm extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(tbl3);
 
+        jLabel2.setText("Năm:");
+
+        cboNam.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2020", "2021", "2022", "2023", "2024" }));
+        cboNam.setSelectedIndex(3);
+
+        chkTang.setSelected(true);
+        chkTang.setText("Tăng lương");
+
+        btnTK.setText("Thống kê");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -156,12 +170,28 @@ public class ThongKeForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 910, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(254, 254, 254)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cboNam, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(chkTang, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnTK)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(cboNam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chkTang)
+                    .addComponent(btnTK))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -169,17 +199,17 @@ public class ThongKeForm extends javax.swing.JFrame {
 
         tbl4.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã NV", "Họ và Tên", "SĐT", "Bậc Lương", "Lương cơ bản", "Trình độ", "Chuyên Ngành", "Tổng số Công Tác"
+                "Mã NV", "Họ và Tên", "SĐT", "Giới tính", "Bậc Lương", "Lương cơ bản", "Trình độ", "Chuyên Ngành", "Tổng số Công Tác"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -201,7 +231,7 @@ public class ThongKeForm extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -269,7 +299,11 @@ public class ThongKeForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnTK;
+    private javax.swing.JComboBox<String> cboNam;
+    private javax.swing.JCheckBox chkTang;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -288,7 +322,12 @@ public class ThongKeForm extends javax.swing.JFrame {
     void init() {
         fillSoLuonhNhanVienPB();
         fillLuongTheoPB();
+        fillTbl3();
         fillCongTacTheoNV();
+        
+        btnTK.addActionListener(e -> {
+            fillTbl3();
+        });
     }
     
     void fillSoLuonhNhanVienPB(){
@@ -309,6 +348,22 @@ public class ThongKeForm extends javax.swing.JFrame {
         model.setRowCount(0);
         try {
             ArrayList<Object[]> list = dao.thongKeLuongTheoPB();
+            for (Object[] objects : list) {
+                model.addRow(objects);
+            }
+        } catch (Exception e) {
+            e.fillInStackTrace();
+        }
+    }
+    
+    
+    void fillTbl3(){
+        Integer year = Integer.parseInt((String) cboNam.getSelectedItem());
+        boolean isMore = chkTang.isSelected();
+        DefaultTableModel model = (DefaultTableModel) tbl3.getModel();
+        model.setRowCount(0);
+        try {
+            ArrayList<Object[]> list = dao.nhanVienDuocTangLuongTrongNam(year, isMore);
             for (Object[] objects : list) {
                 model.addRow(objects);
             }

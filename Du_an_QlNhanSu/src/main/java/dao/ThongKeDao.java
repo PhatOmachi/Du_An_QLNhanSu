@@ -66,6 +66,32 @@ public class ThongKeDao {
         return list;
     }
 
+    public ArrayList<Object[]> nhanVienDuocTangLuongTrongNam(int year, boolean more) {
+        ArrayList<Object[]> list = new ArrayList<>();
+        try {
+            ResultSet rs = null;
+            try {
+                String sql = "{call nhanVienDuocTangLuongTrongNam (?, ?)}";
+                rs = Jdbc.executeQuery(sql, year, more ? 1 : 0);
+                while (rs.next()) {
+                    Object[] row = {
+                        rs.getString("maNV"),
+                        rs.getString("hoTen"),
+                        rs.getString("gioiTinh"),
+                        rs.getDouble("bacLuongHienTai"),
+                        rs.getDouble("bacLuongTruoc")
+                    };
+                    list.add(row);
+                }
+            } finally {
+                rs.getStatement().getConnection().close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public ArrayList<Object[]> congTacTheoNV() {
         ArrayList<Object[]> list = new ArrayList<>();
         try {
@@ -78,7 +104,7 @@ public class ThongKeDao {
                         rs.getString("maNV"),
                         rs.getString("hoTen"),
                         rs.getString("soDienThoai"),
-                        rs.getBoolean("gioiTinh"),
+                        rs.getString("gioiTinh"),
                         rs.getDouble("bacLuong"),
                         rs.getDouble("luongCoBan"),
                         rs.getString("tenTrinhDo"),

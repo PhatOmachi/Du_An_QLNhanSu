@@ -254,7 +254,10 @@ go
 create or alter procedure nhanVienDuocTangLuongTrongNam @year int, @tang bit
 as
 begin
-	select	nv.maNV, nv.hoTen, gioiTinh,
+	select	nv.maNV, nv.hoTen, case gioiTinh
+								when 1 then N'Nam'
+								else N'Nữ'
+								end as gioiTinh,
 			nv.bacLuong as bacLuongHienTai,
 			(select top 1 bacLuong from dieuChinhLuong dc2
 			where	dc2.maNV = nv.maNV
@@ -276,7 +279,10 @@ create or alter procedure congTacTheoNV
 as
 begin
 	select	nv.maNV, hoTen, soDienThoai, 
-			gioiTinh, nv.bacLuong, luongCoBan, 
+			case gioiTinh
+								when 1 then N'Nam'
+								else N'Nữ'
+								end as gioiTinh, nv.bacLuong, luongCoBan, 
 			td.tenTrinhDo, td.chuyenNganh, count(ct.maCT) as tongCT from NhanVien nv
 	join CongTac ct on nv.maNV = ct.maNV
 	join PhongBan pb on pb.maPB = nv.maPB
