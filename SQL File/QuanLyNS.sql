@@ -77,8 +77,55 @@ create table CongTac(
 	constraint fk_ct_nv foreign key (maNV) references nhanvien(maNV)
 )
 
+create table dieuChinhLuong (
+	maDCL int identity(1,1) primary key,
+	maNV nvarchar(10) not null,
+	bacLuong float not null,
+	ngayDC date default getdate(),
+	isFirst bit default 0,
+	isMore bit default 1,
+	foreign key (maNV) references nhanVien(maNV),
+	foreign key (bacLuong) references Luong(bacLuong)
+)
+
 use QuanLyNS
 go
+-- trigger để đúng dữ liệu 
+go
+--tạo trigger khi update hay insert vô bảng nhân viên thì sẽ insert mới vào bảng dcluong
+create or alter trigger insertDCL
+on nhanvien
+after insert
+as
+begin
+	insert into dieuChinhLuong (maNV, bacLuong, isFirst, isMore)
+	select maNV, bacLuong, 1, null from inserted
+end
+go
+
+create or alter trigger updateDCL
+on nhanvien
+after update
+as
+begin
+	declare @bacLuongi float, @bacLuongd float, @maNV nvarchar(10), @isMore bit;
+	set @isMore = 1;
+	select @bacLuongi = bacLuong from inserted
+	select @maNV = maNV, @bacLuongd = bacLuong from deleted
+	if @bacLuongi != @bacLuongd
+	begin
+		if @bacLuongi < @bacLuongd
+		begin
+			set @isMore = 0;
+		end
+		insert into dieuChinhLuong (maNV, bacLuong, isMore)
+		values (@maNV, @bacLuongi, @isMore)
+	end
+end
+go
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
 -- example records for demo
 -- Insert into TaiKhoan table
 INSERT INTO TaiKhoan (tenDangNhap, matKhau) VALUES
@@ -155,8 +202,10 @@ select * from TaiKhoan
 select * from TrinhDoHocVan
 select * from PhongBan
 select * from Luong
+select * from dieuChinhLuong
 
 go
+-- tìm nhân viên
 create or alter procedure searchNV @val nvarchar(30)
 as
 begin
@@ -169,3 +218,73 @@ begin
 			or tenPB like '%' + @val + '%'
 end
 go
+
+go
+-- thống kê
+
+-- thong ke so luong nhan vien moi phong ban
+create or alter procedure soLuongNVPB
+as
+begin
+	select pb.*, COUNT(maNV) as slnv from PhongBan pb
+	join NhanVien nv on nv.maPB = pb.maPB 
+	group by pb.maPB, tenPB, diaChi, soDienThoaiPB
+	-- 5 col: maPB, tenPB, diaChi, soDienThoaiPB, slnv
+end
+go
+
+exec soLuongNVPB
+
+go
+create or alter procedure thongKeLuongTheoPB
+as
+begin
+	select pb.*, SUM(luongCoBan) as tongLuong from PhongBan pb
+	join NhanVien nv on nv.maPB = pb.maPB
+	join Luong l on nv.bacLuong = l.bacLuong
+	group by pb.maPB, tenPB, diaChi, soDienThoaiPB
+	-- 5 col: maPB, tenPB, diaChi, soDienThoaiPB, tongLuong
+end
+go
+
+exec thongKeLuongTheoPB
+
+go
+-- select ra nhung nhanvien duoc tang hay giam luong trong nam
+create or alter procedure nhanVienDuocTangLuongTrongNam @year int, @tang bit
+as
+begin
+	select nv.* from dieuChinhLuong dc
+	join NhanVien nv on dc.maNV = nv.maNV
+	where	isFirst = 0
+			and YEAR(ngayDC) = @year
+			and isMore = @tang
+	-- ArrayList<NhanVien>
+end
+go
+
+exec nhanVienDuocTangLuongTrongNam 2023, 1
+
+go
+-- thong ke tong so cong tac cua moi nhan vien
+create or alter procedure congTacTheoNV
+as
+begin
+	select	nv.maNV, hoTen, soDienThoai, 
+			gioiTinh, nv.bacLuong, luongCoBan, 
+			td.tenTrinhDo, td.chuyenNganh, count(ct.maCT) as tongCT from NhanVien nv
+	join CongTac ct on nv.maNV = ct.maNV
+	join PhongBan pb on pb.maPB = nv.maPB
+	join ChucVu cv on cv.maCV = nv.maCV
+	join Luong on Luong.bacLuong = nv.bacLuong
+	join TrinhDoHocVan td on td.maTDHV = nv.maTDHV
+	group by nv.maNV, hoTen, soDienThoai, 
+			gioiTinh, nv.bacLuong, luongCoBan, 
+			td.tenTrinhDo, td.chuyenNganh
+end
+go
+
+exec congTacTheoNV
+
+
+
