@@ -46,6 +46,9 @@ public class JFrameTrangChu extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jSeparator10 = new javax.swing.JToolBar.Separator();
         jButton6 = new javax.swing.JButton();
+        jSeparator11 = new javax.swing.JToolBar.Separator();
+        btnThongKe = new javax.swing.JButton();
+        jSeparator12 = new javax.swing.JToolBar.Separator();
         btnDoiMatKhau = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -131,8 +134,21 @@ public class JFrameTrangChu extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(jButton6);
+        jToolBar1.add(jSeparator11);
+
+        btnThongKe.setText("Thống kê");
+        btnThongKe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThongKeActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnThongKe);
+        jToolBar1.add(jSeparator12);
 
         btnDoiMatKhau.setText("Đổi mật khẩu");
+        btnDoiMatKhau.setFocusable(false);
+        btnDoiMatKhau.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnDoiMatKhau.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnDoiMatKhau.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDoiMatKhauActionPerformed(evt);
@@ -222,8 +238,12 @@ public class JFrameTrangChu extends javax.swing.JFrame {
         new JDialogLuong(this, true).setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void btnThongKeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThongKeActionPerformed
+        new ThongKeForm().setVisible(true);
+    }//GEN-LAST:event_btnThongKeActionPerformed
+
     private void btnDoiMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoiMatKhauActionPerformed
-new JDialogDoiMatKhau(this, true).setVisible(true);
+        new JDialogDoiMatKhau(this, true).setVisible(true);
     }//GEN-LAST:event_btnDoiMatKhauActionPerformed
 
     /**
@@ -263,6 +283,7 @@ new JDialogDoiMatKhau(this, true).setVisible(true);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDoiMatKhau;
+    private javax.swing.JButton btnThongKe;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -276,6 +297,8 @@ new JDialogDoiMatKhau(this, true).setVisible(true);
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator10;
+    private javax.swing.JToolBar.Separator jSeparator11;
+    private javax.swing.JToolBar.Separator jSeparator12;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
