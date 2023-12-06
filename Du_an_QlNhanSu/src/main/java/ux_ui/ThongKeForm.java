@@ -4,17 +4,23 @@
  */
 package ux_ui;
 
+import entity.ThongKeDao;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
 public class ThongKeForm extends javax.swing.JFrame {
-
+    ThongKeDao dao = new ThongKeDao();
     /**
      * Creates new form ThongKeForm
      */
     public ThongKeForm() {
         initComponents();
+        setLocationRelativeTo(null);
+        init();
     }
 
     /**
@@ -278,4 +284,35 @@ public class ThongKeForm extends javax.swing.JFrame {
     private javax.swing.JTable tbl3;
     private javax.swing.JTable tbl4;
     // End of variables declaration//GEN-END:variables
+
+    void init() {
+        fillSoLuonhNhanVienPB();
+        fillLuongTheoPB();
+    }
+    
+    void fillSoLuonhNhanVienPB(){
+        DefaultTableModel model = (DefaultTableModel) tbl1.getModel();
+        model.setRowCount(0);
+        try {
+            ArrayList<Object[]> list = dao.soLuongNhanVienPhongBan();
+            for (Object[] objects : list) {
+                model.addRow(objects);
+            }
+        } catch (Exception e) {
+            e.fillInStackTrace();
+        }
+    }
+    
+    void fillLuongTheoPB(){
+        DefaultTableModel model = (DefaultTableModel) tbl2.getModel();
+        model.setRowCount(0);
+        try {
+            ArrayList<Object[]> list = dao.thongKeLuongTheoPB();
+            for (Object[] objects : list) {
+                model.addRow(objects);
+            }
+        } catch (Exception e) {
+            e.fillInStackTrace();
+        }
+    }
 }
