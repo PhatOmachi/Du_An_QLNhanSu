@@ -84,7 +84,7 @@ create table dieuChinhLuong (
 	ngayDC date default getdate(),
 	isFirst bit default 0,
 	isMore bit default 1,
-	foreign key (maNV) references nhanVien(maNV),
+	foreign key (maNV) references nhanVien(maNV) ON DELETE CASCADE,
 	foreign key (bacLuong) references Luong(bacLuong)
 )
 
@@ -296,6 +296,9 @@ end
 go
 
 exec congTacTheoNV
+
+
+
 
 -- update nhanVien
 
