@@ -254,12 +254,17 @@ go
 create or alter procedure nhanVienDuocTangLuongTrongNam @year int, @tang bit
 as
 begin
-	select nv.* from dieuChinhLuong dc
+	select	nv.maNV, nv.hoTen, gioiTinh,
+			nv.bacLuong as bacLuongHienTai,
+			(select top 1 bacLuong from dieuChinhLuong dc2
+			where	dc2.maNV = nv.maNV
+					and dc2.ngayDC != dc.ngayDC) as bacLuongTruoc
+	from dieuChinhLuong dc
 	join NhanVien nv on dc.maNV = nv.maNV
+	join Luong l on l.bacLuong = nv.bacLuong
 	where	isFirst = 0
 			and YEAR(ngayDC) = @year
 			and isMore = @tang
-	-- ArrayList<NhanVien>
 end
 go
 
@@ -286,5 +291,28 @@ go
 
 exec congTacTheoNV
 
+-- update nhanVien
+
+update NhanVien
+set bacLuong = 4.0
+where maNV = 'NV001'
+
+update NhanVien
+set bacLuong = 5.0
+where maNV = 'NV002'
+
+update NhanVien
+set bacLuong = 2.0
+where maNV = 'NV003'
+
+update NhanVien
+set bacLuong = 3.0
+where maNV = 'NV004'
+
+update NhanVien
+set bacLuong = 1.0
+where maNV = 'NV005'
 
 
+select * from NhanVien
+select * from dieuChinhLuong
